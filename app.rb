@@ -4,10 +4,13 @@ require 'better_errors'
 require 'sinatra/reloader'
 require 'pg'
 
+require './models/squad'
+
 set :conn, PG.connect( dbname: 'weekendlab' )
 
 before do
   @conn = settings.conn
+  Squad.conn = @conn
 end
 
 configure :development do
@@ -22,13 +25,7 @@ get '/' do
 end
 
 get '/squads' do
-  squads = []
-  @conn.exec("SELECT * FROM squads") do |result|
-    result.each do |row|
-        squads << row
-    end
-  end
-  @squads = squads
+  @squads = Squad.all
   erb :'squads/index'
 end
 
