@@ -34,9 +34,8 @@ get '/squads/new' do
 end
 
 get '/squads/:id' do
-  id = params[:id].to_i
-  squad = @conn.exec('SELECT * FROM squads WHERE id = ($1)', [ id ] )
-  @squad = squad[0]
+  @squad = Squad.find params[:id].to_i 
+
   students = []
   @conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [@squad["id"]]) do |result|
     result.each do |row|
