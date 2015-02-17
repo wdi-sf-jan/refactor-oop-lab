@@ -52,8 +52,10 @@ post '/squads' do
 end
 
 put '/squads/:id' do
-  id = params[:id].to_i
-  @conn.exec('UPDATE squads SET name=$1, mascot=$2 WHERE id = $3', [ params[:name], params[:mascot], id ] )
+  s = Squad.find(params[:id].to_i)
+  s.name = params[:name]
+  s.mascot = params[:mascot]
+  s.save
   redirect '/squads'
 end
 
