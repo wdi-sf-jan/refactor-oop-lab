@@ -47,7 +47,7 @@ get '/squads/:id/edit' do
 end
 
 post '/squads' do
-  Squad.new(params).save
+  Squad.create params
   redirect '/squads'
 end
 

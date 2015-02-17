@@ -34,4 +34,8 @@ class Squad
   def save
     Squad.conn.exec('INSERT INTO squads (name, mascot) values ($1, $2)', [ name, mascot ] )
   end
+
+  def self.create params
+    new(params).save
+  end
 end
