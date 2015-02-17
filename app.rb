@@ -37,7 +37,7 @@ get '/squads/:id' do
   @squad = Squad.find params[:id].to_i 
 
   students = []
-  @conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [@squad["id"]]) do |result|
+  @conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [@squad.id]) do |result|
     result.each do |row|
         students << row
     end
