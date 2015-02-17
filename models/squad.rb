@@ -5,17 +5,7 @@ class Squad
     @mascot = params["mascot"]
   end
 
-  def id
-    @id
-  end
-
-  def name
-    @name
-  end
-
-  def mascot
-    @mascot
-  end
+  attr_reader :id, :name, :mascot
   
   # should maintain a db connection
   def self.conn= connection
