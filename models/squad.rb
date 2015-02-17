@@ -49,4 +49,9 @@ class Squad
     new(params).save
   end
 
+  def destroy
+    Squad.conn.exec('DELETE FROM squads WHERE id = $1', [ id ] )
+    Squad.conn.exec('DELETE FROM students WHERE squad_id = $1', [ id ] )
+  end
+
 end
