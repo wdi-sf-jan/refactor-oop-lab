@@ -101,7 +101,6 @@ put '/squads/:squad_id/students/:student_id' do
 end
 
 delete '/squads/:squad_id/students/:student_id' do
-  id = params[:student_id].to_i
-  @conn.exec('DELETE FROM students WHERE id = ($1)', [ id ] )
+  Student.find(params[:student_id].to_i).destroy
   redirect "/squads/#{params[:squad_id].to_i}"
 end

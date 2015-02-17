@@ -42,4 +42,8 @@ class Student
   def self.create params
     new(params).save
   end
+
+  def destroy
+    Student.conn.exec('DELETE FROM students WHERE id = $1', [ id ] )
+  end
 end
