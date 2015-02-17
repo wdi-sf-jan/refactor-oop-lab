@@ -47,9 +47,7 @@ get '/squads/:id' do
 end
 
 get '/squads/:id/edit' do
-  id = params[:id].to_i
-  squad = @conn.exec('SELECT * FROM squads WHERE id = ($1)', [ id ] )
-  @squad = squad[0]
+  @squad = Squad.find params[:id].to_i
   erb :'squads/edit'
 end
 
