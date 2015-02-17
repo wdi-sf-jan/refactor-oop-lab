@@ -30,4 +30,8 @@ class Squad
   def students
     Squad.conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [id])
   end
+
+  def save
+    Squad.conn.exec('INSERT INTO squads (name, mascot) values ($1, $2)', [ name, mascot ] )
+  end
 end

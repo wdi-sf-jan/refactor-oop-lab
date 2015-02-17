@@ -47,7 +47,7 @@ get '/squads/:id/edit' do
 end
 
 post '/squads' do
-  @conn.exec('INSERT INTO squads (name, mascot) values ($1, $2)', [ params[:name], params[:mascot] ] )
+  Squad.new(params).save
   redirect '/squads'
 end
 
