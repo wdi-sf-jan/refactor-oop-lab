@@ -1,4 +1,6 @@
-class Student
+require_relative './model'
+
+class Student < Model
   attr_reader :id, :squad_id
   attr_accessor :name, :age, :spirit_animal
 
@@ -11,24 +13,8 @@ class Student
     @existing = existing
   end
 
-  def existing?
-    @existing
-  end
-
-  def self.conn= connection
-    @conn = connection
-  end
-
-  def self.conn
-    @conn
-  end
-
-  def self.all
-    @conn.exec("SELECT * FROM students")
-  end
-
-  def self.find id
-    new @conn.exec('SELECT * FROM students WHERE id = ($1)', [ id ] )[0], true
+  def self.table_name
+    "students"
   end
 
   def save
@@ -39,7 +25,4 @@ class Student
     end
   end
 
-  def self.create params
-    new(params).save
-  end
 end

@@ -1,4 +1,6 @@
-class Squad
+require_relative './model'
+
+class Squad < Model
   attr_reader :id
   attr_accessor :name, :mascot
   
@@ -9,28 +11,8 @@ class Squad
     @existing = existing
   end
 
-  def existing?
-    @existing
-  end
-
-  # should maintain a db connection
-  def self.conn= connection
-    @conn = connection
-  end
-
-  def self.conn
-    @conn
-  end
-
-  # should return a list of squads
-  def self.all
-    @conn.exec("SELECT * FROM squads")
-  end
-
-  # should return a squad by id
-  # or nil if not found
-  def self.find id
-    new @conn.exec('SELECT * FROM squads WHERE id = ($1)', [ id ] )[0], true
+  def self.table_name
+    "squads"
   end
 
   def students
@@ -43,10 +25,6 @@ class Squad
     else
       Squad.conn.exec('INSERT INTO squads (name, mascot) values ($1, $2)', [ name, mascot ] )
     end
-  end
-
-  def self.create params
-    new(params).save
   end
 
 end
