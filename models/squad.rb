@@ -12,6 +12,10 @@ class Squad
     @conn = connection
   end
 
+  def self.conn
+    @conn
+  end
+
   # should return a list of squads
   def self.all
     @conn.exec("SELECT * FROM squads")
@@ -21,5 +25,9 @@ class Squad
   # or nil if not found
   def self.find id
     new @conn.exec('SELECT * FROM squads WHERE id = ($1)', [ id ] )[0]
+  end
+
+  def students
+    Squad.conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [id])
   end
 end

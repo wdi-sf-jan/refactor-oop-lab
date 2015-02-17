@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @students.each do |student| %>
+      <% @squad.students.each do |student| %>
       <tr>
         <td>
           <a href="/squads/<%= @squad.id %>/students/<%= student["id"]%>"><%=student["name"]%></a>

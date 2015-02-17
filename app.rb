@@ -5,12 +5,14 @@ require 'sinatra/reloader'
 require 'pg'
 
 require './models/squad'
+require './models/student'
 
 set :conn, PG.connect( dbname: 'weekendlab' )
 
 before do
   @conn = settings.conn
   Squad.conn = @conn
+  Student.conn = @conn
 end
 
 configure :development do
@@ -36,13 +38,6 @@ end
 get '/squads/:id' do
   @squad = Squad.find params[:id].to_i 
 
-  students = []
-  @conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [@squad.id]) do |result|
-    result.each do |row|
-        students << row
-    end
-  end
-  @students = students
   erb :'squads/show'
 end
 
@@ -72,14 +67,7 @@ end
 # STUDENT ROUTES
 
 get '/squads/:squad_id/students' do
-  students = []
-  id = params[:squad_id].to_i
-  @conn.exec("SELECT * FROM students WHERE squad_id = ($1)", [id]) do |result|
-    result.each do |row|
-        students << row
-    end
-  end
-  @students = students
+  @students = Squad.find(params[:squad_id].to_i).students
   erb :'students/index'
 end
 
