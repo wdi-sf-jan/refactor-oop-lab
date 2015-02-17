@@ -1,13 +1,18 @@
 class Squad
-  def initialize params
+  attr_reader :id
+  attr_accessor :name, :mascot
+  
+  def initialize params, existing=false
     @id = params["id"]
     @name = params["name"]
     @mascot = params["mascot"]
+    @existing = existing
   end
 
-  attr_reader :id
-  attr_accessor :name, :mascot, :existing_record
-  
+  def existing?
+    @existing
+  end
+
   # should maintain a db connection
   def self.conn= connection
     @conn = connection
@@ -25,9 +30,7 @@ class Squad
   # should return a squad by id
   # or nil if not found
   def self.find id
-    s = new @conn.exec('SELECT * FROM squads WHERE id = ($1)', [ id ] )[0]
-    s.existing_record = true
-    s
+    new @conn.exec('SELECT * FROM squads WHERE id = ($1)', [ id ] )[0], true
   end
 
   def students
@@ -35,7 +38,7 @@ class Squad
   end
 
   def save
-    if existing_record
+    if existing?
       Squad.conn.exec('UPDATE squads SET name=$1, mascot=$2 WHERE id = $3', [ name, mascot, id ] )
     else
       Squad.conn.exec('INSERT INTO squads (name, mascot) values ($1, $2)', [ name, mascot ] )
