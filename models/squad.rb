@@ -14,11 +14,11 @@ class Squad
   end
 
   # should maintain a db connection
-  def self.conn= connection
+  def self.conn= connection   #Setting connection
     @conn = connection
   end
 
-  def self.conn
+  def self.conn #Getter to be able to call our connection
     @conn
   end
 
